@@ -1,0 +1,16 @@
+{
+  "name": "RESTTrelloWrapper",
+  "version": "1.0.0",
+  "description": "Designed to simplify adding a card to Trello",
+  "main": "index.js",
+  "scripts": {
+    "test": "newman run .\\tests\\REST-Trello-Wrapper.postman_collection.json",
+    "start": "node ."
+  },
+  "author": "Daniel Ward",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1"
+  }
+}
