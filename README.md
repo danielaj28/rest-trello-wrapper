@@ -1,2 +1,14 @@
 # REST-trello-wrapper
 A simple node REST API wrapper to simplify calls from multiple systems.
+
+## Background
+
+The [Trello API](https://developer.atlassian.com/cloud/trello/guides/rest-api/api-introduction/) is awesome! However when I just want to add a new card to list A on trello board B I don't want to perform all the calls to get the details each time of what the ID is for the board and what the ID is for the list, I just want to say add it to list A on board B. I don't want to have to worry about rate limits. I only want to provide a simple model.
+
+## Aims
+
+1. RESTful endpoint for creating a card: /board/{BoardName}/list/{listName} Body:{"title":"Title text goes here"}
+2. If the board ID is not known, lookup and cache
+3. If the list ID is not known, lookup and cache
+4. Add the card
+5. If the request could not be added immediately due to rate limiting, queue to be sent later
