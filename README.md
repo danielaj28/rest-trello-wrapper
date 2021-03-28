@@ -1,4 +1,5 @@
 # REST-trello-wrapper
+
 A simple node REST API wrapper to simplify calls from multiple systems.
 
 ## Background
@@ -12,3 +13,28 @@ The [Trello API](https://developer.atlassian.com/cloud/trello/guides/rest-api/ap
 3. If the list ID is not known, lookup and cache
 4. Add the card
 5. If the request could not be added immediately due to rate limiting, queue to be sent later
+
+## How to setup
+
+1. Clone the repo
+2. Run `npm i` to install dependendies
+3. Run `node newKey.js {length}` to generate a new access key of given length (this will also create the config.json file)
+4. Run the API using ` node .`
+
+## Interacting with the API
+
+There is currently one main endpoint for creating cards, this is the following:
+
+### Create a new Card
+
+HTTP Method: POST
+
+URI: /board/{BoardName}/list/{listName}
+
+Body:
+
+```json
+{
+  "title": "Title text goes here"
+}
+```
