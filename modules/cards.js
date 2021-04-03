@@ -30,12 +30,14 @@ module.exports.setup = function (app) {
             return;
           }
 
-          res
-            .status(200)
-            .json(
-              `The board id for ${req.params.boardname} = ${board.id} and the list id for ${req.params.listname} = ${listId}`
-            );
-          return;
+          trello.addCard(app, listId, req.body, (result) => {
+            if (result) {
+              res.status(200).json(`Card has been created on Trello`);
+            } else {
+              res.status(500).json(`There was a problem adding a new card`);
+            }
+            return;
+          });
         }
       );
     });

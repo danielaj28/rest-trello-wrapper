@@ -79,4 +79,21 @@ module.exports.getLists = function (app, boardName, listName, callback) {
       console.log(error);
       callback();
     });
+
+  module.exports.addCard = function (app, listId, cardData, callback) {
+    console.log(`Adding new card`);
+
+    axios({
+      method: "post",
+      url: `https://api.trello.com/1/cards?key=${app.config.trello.key}&token=${app.config.trello.token}&name=${cardData.title}&idList=${listId}`,
+    })
+      .then(function (response) {
+        callback(response.status == 200);
+      })
+      .catch(function (error) {
+        console.log(`Error creating card on live API`);
+        console.log(error);
+        callback(false);
+      });
+  };
 };
