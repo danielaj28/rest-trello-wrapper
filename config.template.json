@@ -1,0 +1,12 @@
+{
+  "trello": {
+    "member": "insert your member name here",
+    "key": "insert your trello key here",
+    "token": "insert your trello token here"
+  },
+  "apiKeys": [
+    "Put your access keys for this api here",
+    "Put your access keys for this api here",
+    "Put your access keys for this api here"
+  ]
+}
