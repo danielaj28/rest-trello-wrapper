@@ -6,20 +6,38 @@ module.exports.setup = function (app) {
       return;
     }
 
-    trello.getBoards(app, req.params.boardname, (id) => {
-      if (id == undefined) {
+    trello.getBoards(app, req.params.boardname, (board) => {
+      if (board == undefined) {
         res
           .status(500)
           .json(
             "Having trouble accessing Trello boards right now, try again later."
           );
         return;
-      } else {
-        res
-          .status(200)
-          .json(`The board id for ${req.params.boardname} = ${id}`);
-        return;
       }
+
+      trello.getLists(
+        app,
+        req.params.boardname,
+        req.params.listname,
+        (listId) => {
+          if (listId == undefined) {
+            res
+              .status(500)
+              .json(
+                "Having trouble accessing Trello lists right now, try again later."
+              );
+            return;
+          }
+
+          res
+            .status(200)
+            .json(
+              `The board id for ${req.params.boardname} = ${board.id} and the list id for ${req.params.listname} = ${listId}`
+            );
+          return;
+        }
+      );
     });
 
     //Check parameters supplied

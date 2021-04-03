@@ -18,7 +18,7 @@ module.exports.getBoards = function (app, boardName, callback) {
     .then(function (response) {
       boards = [];
       response.data.forEach((board) => {
-        boards[board.name.toLowerCase()] = board.id;
+        boards[board.name.toLowerCase()] = { id: board.id, lists: {} };
       });
       console.log(`Board cache updated from live API`);
       if (boards[boardName] != undefined) {
@@ -32,6 +32,50 @@ module.exports.getBoards = function (app, boardName, callback) {
     })
     .catch(function (error) {
       console.log(`Error getting boards from live API`);
+      console.log(error);
+      callback();
+    });
+};
+
+module.exports.getLists = function (app, boardName, listName, callback) {
+  //Check cache
+  if (
+    boards[boardName.toLowerCase()].lists[listName.toLowerCase()] != undefined
+  ) {
+    console.log(`List named ${listName} found in cache`);
+    callback(boards[boardName.toLowerCase()].lists[listName.toLowerCase()]);
+    return;
+  }
+
+  console.log(`List named ${listName} not found in cache, checking live API`);
+  axios({
+    method: "get",
+    url: `https://api.trello.com/1/boards/${boards[boardName].id}/lists?key=${app.config.trello.key}&token=${app.config.trello.token}`,
+  })
+    .then(function (response) {
+      boards[boardName.toLowerCase()].lists = {};
+
+      response.data.forEach((list) => {
+        boards[boardName.toLowerCase()].lists[list.name.toLowerCase()] =
+          list.id;
+      });
+
+      console.log(`List cache updated from live API`);
+
+      if (
+        boards[boardName.toLowerCase()].lists[listName.toLowerCase()] !=
+        undefined
+      ) {
+        console.log(`List named ${listName} now found in cache`);
+        callback(boards[boardName.toLowerCase()].lists[listName.toLowerCase()]);
+        return;
+      } else {
+        console.log(`List named ${listName} not found after cache update`);
+        callback();
+      }
+    })
+    .catch(function (error) {
+      console.log(`Error getting lists from live API`);
       console.log(error);
       callback();
     });
