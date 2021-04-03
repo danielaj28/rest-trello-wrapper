@@ -2,6 +2,10 @@ const trello = require("./trello.js");
 
 module.exports.setup = function (app) {
   app.post("/board/:boardname/list/:listname/", (req, res) => {
+    if (!app.authCheck(req, res)) {
+      return;
+    }
+
     trello.getBoards(app, req.params.boardname, (id) => {
       if (id == undefined) {
         res
