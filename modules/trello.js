@@ -5,12 +5,12 @@ let boards = {};
 module.exports.getBoards = function (app, boardName, callback) {
   //Check cache
   if (boards[boardName.toLowerCase()] != undefined) {
-    console.log(`Board named ${boardName} found in cache`);
+    console.log(`Board ${boardName} found in cache`);
     callback(boards[boardName]);
     return;
   }
 
-  console.log(`Board named ${boardName} not found in cache, checking live API`);
+  console.log(`Board ${boardName} cache miss`);
   axios({
     method: "get",
     url: `https://api.trello.com/1/members/${app.config.trello.member}/boards?key=${app.config.trello.key}&token=${app.config.trello.token}`,
@@ -20,13 +20,14 @@ module.exports.getBoards = function (app, boardName, callback) {
       response.data.forEach((board) => {
         boards[board.name.toLowerCase()] = { id: board.id, lists: {} };
       });
-      console.log(`Board cache updated from live API`);
+      console.log(`Pulled boards from live API`);
+      console.debug(boards);
       if (boards[boardName] != undefined) {
-        console.log(`Board named ${boardName} now found in cache`);
+        console.log(`Board ${boardName} now found`);
         callback(boards[boardName]);
         return;
       } else {
-        console.log(`Board named ${boardName} not found after cache update`);
+        console.log(`Board ${boardName} not found after cache update`);
         callback();
       }
     })
@@ -42,12 +43,12 @@ module.exports.getLists = function (app, boardName, listName, callback) {
   if (
     boards[boardName.toLowerCase()].lists[listName.toLowerCase()] != undefined
   ) {
-    console.log(`List named ${listName} found in cache`);
+    console.log(`List ${listName} found in cache`);
     callback(boards[boardName.toLowerCase()].lists[listName.toLowerCase()]);
     return;
   }
 
-  console.log(`List named ${listName} not found in cache, checking live API`);
+  console.log(`List ${listName} cache miss`);
   axios({
     method: "get",
     url: `https://api.trello.com/1/boards/${boards[boardName].id}/lists?key=${app.config.trello.key}&token=${app.config.trello.token}`,
@@ -60,17 +61,17 @@ module.exports.getLists = function (app, boardName, listName, callback) {
           list.id;
       });
 
-      console.log(`List cache updated from live API`);
+      console.log(`Pulled lists from live API`);
 
       if (
         boards[boardName.toLowerCase()].lists[listName.toLowerCase()] !=
         undefined
       ) {
-        console.log(`List named ${listName} now found in cache`);
+        console.log(`List ${listName} now found in cache`);
         callback(boards[boardName.toLowerCase()].lists[listName.toLowerCase()]);
         return;
       } else {
-        console.log(`List named ${listName} not found after cache update`);
+        console.log(`List ${listName} not found after cache update`);
         callback();
       }
     })
