@@ -21,6 +21,14 @@ The [Trello API](https://developer.atlassian.com/cloud/trello/guides/rest-api/ap
 3. Run `node newKey.js {length}` to generate a new access key of given length (this will also create the config.json file)
 4. Run the API using ` node .`
 
+To run on docker:
+
+```
+docker build -t resttrellowrapper:latest .
+docker create -p 15971:3000 -e PORT=3000 --name "REST-Trello-Wrapper" --restart "always" resttrellowrapper:latest "node" "index.js"
+docker start "REST-Trello-Wrapper"
+```
+
 ## Interacting with the API
 
 There is currently one main endpoint for creating cards, this is the following:

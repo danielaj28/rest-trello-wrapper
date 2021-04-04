@@ -45,5 +45,5 @@ const cards = require("./modules/cards.js");
 cards.setup(app);
 
 //Begin
-const port = process.env.PORT || 15971;
+const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`INFO Listening on ${port}...`));
