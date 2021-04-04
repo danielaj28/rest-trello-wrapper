@@ -44,6 +44,10 @@ console.log("INFO Loading cards module");
 const cards = require("./modules/cards.js");
 cards.setup(app);
 
+console.log("INFO Loading status module");
+const status = require("./modules/status.js");
+status.setup(app);
+
 //Begin
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`INFO Listening on ${port}...`));
