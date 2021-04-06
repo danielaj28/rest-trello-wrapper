@@ -6,10 +6,31 @@ module.exports.setup = function (app) {
       return;
     }
 
+    if (
+      req.params.boardname == undefined ||
+      req.params.listname == undefined ||
+      req.params.boardname.trim() == "" ||
+      req.params.listname.trim() == ""
+    ) {
+      res
+        .status(400)
+        .json("boardName and listName are required uri parameters");
+      return;
+    }
+
     let boardName = req.params.boardname.toLowerCase().trim();
     let listName = req.params.listname.toLowerCase().trim();
-    let body = req.body;
 
+    if (
+      req.body == undefined ||
+      req.body.title == undefined ||
+      req.body.title.trim() == ""
+    ) {
+      res.status(400).json("Card title was not specified in the request body");
+      return;
+    }
+
+    let body = req.body;
     body.title = body.title.trim();
 
     trello.getBoards(app, boardName, (board) => {
