@@ -6,8 +6,11 @@ module.exports.setup = function (app) {
       return;
     }
 
-    let boardName = req.params.boardname.toLowerCase();
-    let listName = req.params.listname.toLowerCase();
+    let boardName = req.params.boardname.toLowerCase().trim();
+    let listName = req.params.listname.toLowerCase().trim();
+    let body = req.body;
+
+    body.title = body.title.trim();
 
     trello.getBoards(app, boardName, (board) => {
       if (board == undefined) {
@@ -21,7 +24,7 @@ module.exports.setup = function (app) {
           return;
         }
 
-        trello.addCard(app, listId, req.body, (result) => {
+        trello.addCard(app, listId, body, (result) => {
           if (result) {
             res.status(200).json(`Card has been created on Trello`);
           } else {
