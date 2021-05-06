@@ -18,8 +18,12 @@ The [Trello API](https://developer.atlassian.com/cloud/trello/guides/rest-api/ap
 
 1. Clone the repo
 2. Run `npm i` to install dependendies
-3. Run `node newKey.js {length}` to generate a new access key of given length (this will also create the config.json file)
-4. Run the API using ` node .`
+3. [Get an access key and token from Trello](https://trello.com/app-key)
+4. Run `node newKey.js {length}` to generate a new access key of given length (this will also create the config.json file)
+5. In the config add the trello key to the config trello.key
+6. Add the Trello token to the config trello.token
+7. Add you Trello username to the config trello.member
+8. Run the API using ` node .`
 
 To run on docker:
 
